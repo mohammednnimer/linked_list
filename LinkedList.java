@@ -1,62 +1,97 @@
-package application;
-
+package dfk;
 
 public class LinkedList<T extends Comparable<T>> {
 
 	Node<T> head;
 
 	public void insert(T data) {
+Node newnode=new Node<>(data);
 
-		Node<T> newnode = new Node<>(data);
-		Node<T> curr = head;
-		Node<T> prev = null;
-		if (head == null) {
-			head = newnode;
-
-		} else {
-			for (; curr != null && curr.data.compareTo(data) < 0; prev = curr, curr = curr.next)
-				;
-
-			if (prev == null) {
-				newnode.next = curr;
-				head = newnode;
-
-			} else if (curr == null) {
-
-				prev.next = newnode;
-
-			} else {
-				newnode.next = curr;
-				prev.next = newnode;
-
+		if(head==null)
+			{
+			System.out.println(data);
+			head=newnode;
+			return;
 			}
-
+		Node curr=head;
+		for(;curr.next!=null&&curr.data.compareTo(data)<0;curr=curr.next);
+		if(curr.prev==null&&curr.data.compareTo(data)>0)
+		{
+			System.out.println(data);
+			newnode.next=curr;
+			curr.prev=newnode;
+			head=newnode;
+			
+			
 		}
+
+
+		else if(curr.data.compareTo(data)<0&&curr.next==null)
+		{
+			System.out.println(data);
+			curr.next=newnode;
+			newnode.prev=curr;
+		}
+		else {
+//			newnode.next=curr.next;
+//			newnode.prev=curr;
+//			System.out.println(newnode.data);
+//		curr.next.prev=newnode;
+//		
+//			curr.next=newnode;
+			
+			newnode.next=curr;
+			newnode.prev=curr.prev;
+		
+			curr.prev.next=newnode;
+			curr.prev=newnode;
+		
+		
+			
+			
+		}
+		
+		
+		
 
 	}
 
 	public Node delet(T data) {
-		Node<T> curr = head;
-		Node<T> prev = null;
-		if (head == null) {
-			return null;
-		}
-		for (; curr != null && curr.data.compareTo(data) < 0; prev = curr, curr = curr.next)
-			;
-		if (curr == null)
-			return null;
 
-		if (prev == null)
-			head = curr.next;
+if(head==null)
+	return null;
 
-		else if (curr.next == null)
-			prev.next = null;
 
-		else
-			prev.next = curr.next;
 
-		return curr;
+Node curr=head;
 
+
+
+for(;curr.next!=null&&curr.data.compareTo(data)!=0;curr=curr.next);
+if(curr==null)
+	return null;
+
+else {
+if(curr.prev==null&&curr.data.compareTo(data)==0)
+	head=curr.next;
+
+else if(curr.next==null&&curr.data.compareTo(data)==0)
+{
+	curr.prev.next=null;
+}
+else if(curr.next !=null&&curr.prev!=null)
+{
+	curr.prev.next=curr.next;
+    curr.next.prev=curr.prev.prev;	
+	
+}
+
+
+
+return curr;
+		
+		
+}
 	}
 
 	public Node find(T data) {
@@ -200,9 +235,9 @@ public class LinkedList<T extends Comparable<T>> {
 			curr = curr.next;
 
 		}
-		System.out.print("null");
+		System.out.println("null");
 
-		System.out.println();
+	
 	}
 
 }
